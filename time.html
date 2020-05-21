@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+  <title>Document</title>
+</head>
+<style>
+  .main{
+    width: 200px;
+    height: 200px;
+    border: 7px solid #000;
+    margin: 20vh auto;
+    border-radius: 50%;
+    position: relative;
+  }
+  ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 200px;
+
+  }
+  ul li{
+    width: 1px;
+    height: 6px;
+    background-color: aqua;
+    border-radius: 10px;
+    position: absolute;
+    left: 100px;
+    top:0;
+    transform-origin: center 100px;
+  }
+  ul li:nth-of-type(5n+1){height:12px;}
+  .spot{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #000;
+    border-radius: 50%;
+  }
+  .hou{
+    height: 40px;
+    width: 3px;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin:center bottom;
+  }
+  .min{
+    width: 2px;
+    height: 60px;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin:center bottom;
+  }
+  .sec{
+    width: 1px;
+    height: 70px;
+    background-color: rgb(250, 1, 1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin:center bottom;
+  }
+</style>
+<style id="style">
+
+</style>
+<body>
+  <div class="main">
+    <ul>
+      <li></li>
+    </ul>
+    <div class="hou"></div>
+    <div class="min"></div>
+    <div class="sec"></div>
+    <div class="spot"></div>
+  </div>
+
+</body>
+<script>
+  // 1.生成刻度 li
+  let ouli = document.getElementsByTagName('ul')[0]
+  let listli = ''
+  for(let i=0;i<60;i++){
+    listli += '<li></li>'
+  }
+  ouli.innerHTML = listli
+  // 2.旋转刻度
+  let Ostyle= document.getElementById('style')
+  let liCss = ''
+  for(let i=0;i<60;i++){
+    liCss += `ul li:nth-of-type(${i+1}){transform: rotate(${i*6}deg);}`
+  }
+  Ostyle.innerHTML = liCss
+
+  //3.让指针动起来
+  let Hou = document.getElementsByClassName('hou')[0]
+  let Min = document.getElementsByClassName('min')[0]
+  let Sec = document.getElementsByClassName('sec')[0]
+
+  function getTime(){
+    let newdate = new Date()
+
+    let sec = newdate.getSeconds() //秒
+    let min = newdate.getMinutes()+sec/60//分
+    let hou = newdate.getHours()+min/60//时
+    Sec.style.transform = `translate(-50%,-100%)rotate(${sec*6}deg)`
+
+    
+    Min.style.transform = `translate(-50%,-100%)rotate(${min*6}deg)`
+
+    Hou.style.transform = `translate(-50%,-100%)rotate(${hou*30}deg)`
+  }
+
+  setInterval(getTime,1000)
+</script>
+
+</html>
